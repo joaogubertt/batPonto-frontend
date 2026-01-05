@@ -1,74 +1,86 @@
 import { useState } from 'react';
 import { login } from '../services/authService';
+import styles from './Login.module.css';
 
-export function Login() {
-  const [email, setEmail] = useState(''); // Mudamos de username para email
+interface LoginProps {
+  onLoginSuccess: () => void;
+}
+
+export function Login({ onLoginSuccess }: LoginProps) {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // Para mostrar erros na tela
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(''); // Limpa erros antigos
+    setErrorMessage('');
+    setIsLoading(true);
 
     try {
-      // Chama o backend
       const response = await login({ email, password });
       
-      console.log("Login com sucesso!", response);
-      
-      // Salva o token no navegador (LocalStorage) para usar depois
       localStorage.setItem('token', response.accessToken);
       localStorage.setItem('user', JSON.stringify(response.user));
 
-      alert(`Bem-vindo, ${response.user.name}! (Token salvo)`);
-      
-      // Futuramente aqui vamos redirecionar para a Home
-      
-    } catch (error) {
+      onLoginSuccess();
+
+    } catch (error: any) {
       console.error(error);
-      setErrorMessage("Erro ao entrar. Verifique email e senha.");
+      setErrorMessage("Credenciais inválidas. Verifique seu usuário e senha.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-      <h2>Acesso ao BatPonto</h2>
+    <div className={styles.loginContainer}>
+      {/* Nova imagem com logo completo */}
+      <img src="/src/assets/bat-hero.png" alt="BatPonto RH" className={styles.logoImage} />
       
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '300px' }}>
+      <div className={styles.loginCard}>
+        <h2 className={styles.title}>Acesso ao Sistema</h2>
         
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input 
-            id="email"
-            type="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} 
-            placeholder="exemplo@email.com"
-            required
-            style={{ width: '100%', padding: '8px' }}
-          />
-        </div>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          
+          <div className={styles.inputGroup}>
+            <label htmlFor="email" className={styles.label}>E-mail Corporativo</label>
+            <input 
+              id="email"
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)} 
+              placeholder="nome@empresa.com"
+              required
+              className={styles.inputField}
+            />
+          </div>
 
-        <div>
-          <label htmlFor="pass">Senha:</label>
-          <input 
-            id="pass"
-            type="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} 
-            placeholder="Digite sua senha"
-            required
-            style={{ width: '100%', padding: '8px' }}
-          />
-        </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="pass" className={styles.label}>Senha</label>
+            <input 
+              id="pass"
+              type="password" 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} 
+              placeholder="Digite sua senha"
+              required
+              className={styles.inputField}
+            />
+          </div>
 
-        {errorMessage && <span style={{color: 'red', fontSize: '14px'}}>{errorMessage}</span>}
+          {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
 
-        <button type="submit" style={{ padding: '10px', cursor: 'pointer', backgroundColor: '#007bff', color: 'white', border: 'none' }}>
-          Entrar
-        </button>
+          <button type="submit" className={styles.submitButton} disabled={isLoading}>
+            {isLoading ? 'Autenticando...' : 'Entrar'}
+          </button>
 
-      </form>
+        </form>
+      </div>
+      
+      <footer style={{ marginTop: '20px', color: '#8890a5', fontSize: '0.8rem' }}>
+        &copy; {new Date().getFullYear()} BatPonto - Gestão de Recursos Humanos
+      </footer>
     </div>
   );
 }

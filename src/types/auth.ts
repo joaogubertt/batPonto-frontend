@@ -4,13 +4,13 @@ export interface LoginRequest {
 }
 
 export interface UserSummary {
-    id: string; // UUID no Java vira String no JS
+    id: string;
     name: string;
-    role: string; // 'ADMIN' ou 'USER'
+    role: string;
 }
 
 export interface LoginResponse {
-    accessToken: string; // Nome exato do campo no Record Java
+    accessToken: string; 
     tokenType: string;
     expiresIn: number;
     user: UserSummary;

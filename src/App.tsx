@@ -1,10 +1,27 @@
+import { useEffect, useState } from "react";
 import { Login } from "./pages/Login";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token); 
+  }, []);
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
   return (
-    // Por enquanto, renderizamos o Login direto.
-    // Depois usaremos "Rotas" para alternar entre telas.
-    <Login />
+    <div>
+      {isAuthenticated ? (
+        <Dashboard />
+      ) : (
+        <Login onLoginSuccess={handleLoginSuccess} />
+      )}
+    </div>
   );
 }
 
