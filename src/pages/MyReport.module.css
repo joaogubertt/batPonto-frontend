@@ -1,0 +1,63 @@
+.container { padding: 24px; }
+.header { margin-bottom: 16px; }
+.title { margin: 0; font-size: 1.3rem; }
+.subtitle { margin: 6px 0 0; opacity: 0.8; }
+
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin: 16px 0;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 0.85rem; opacity: 0.85; }
+.field input { padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: inherit; }
+
+.primaryBtn, .secondaryBtn {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  background: rgba(255,255,255,0.06);
+  color: inherit;
+}
+
+.primaryBtn:disabled, .secondaryBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.card {
+  margin-top: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(255,255,255,0.04);
+}
+
+.meta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; opacity: 0.9; }
+
+.table { display: grid; gap: 8px; }
+.rowHeader, .row { display: grid; grid-template-columns: 120px 1fr; gap: 12px; align-items: center; }
+.rowHeader { font-weight: 600; opacity: 0.85; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+
+.badge {
+  display: inline-flex;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  width: fit-content;
+}
+
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; opacity: 0.95; }
+
+.error {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 80, 80, 0.35);
+  background: rgba(255, 80, 80, 0.12);
+}
+
+.empty { opacity: 0.75; margin-top: 12px; }
+.rowEmpty { opacity: 0.75; padding: 10px 0; }
